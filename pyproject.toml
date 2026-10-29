@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xdf-tools"
+version = "0.1.0"
+description = "Shared tools for loading, validating, synchronizing, and exporting XDF recordings of time-synchronized (LSL) streams."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    {name = "Philip Georgis"}
+]
+dependencies = [
+    "numpy>=1.24",
+    "pyxdf>=1.18.0,<2",
+]
+
+[project.optional-dependencies]
+# WAV export and audio-stream utilities
+audio = ["scipy>=1.10"]
+# Stream plotting
+plot = ["pyqtgraph>=0.13", "PyQt6>=6.5"]
+test = ["pytest>=7"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
