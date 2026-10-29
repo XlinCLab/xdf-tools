@@ -62,6 +62,31 @@ Windows:
 | `filters` | stream filtering utilities |
 | `plotting` | pyqtgraph stream plots |
 
+## Usage
+
+```python
+from xdf_tools.file import XDFFile
+
+# Streams are moved onto the shared LSL clock (and dejittered) by default
+xdf = XDFFile("recording.xdf")
+audio = xdf.stream_by_name("audio")
+eeg = xdf.stream_by_type("EEG", exclude_name_substring="Impedance")
+print(audio.start_time, audio.nominal_srate, eeg.channel_labels)
+
+# Linear clock drift of a stream: synced = raw + intercept + slope * raw
+intercept, slope = audio.fit_drift_correction()
+
+# Sample-timing quality (gaps, jitter, rate mismatch)
+print(xdf.validate()["streams"])
+```
+
+Command-line tools (require the `audio` and `plot` extras, respectively):
+
+```bash
+python -m xdf_tools.audio --input_xdf recording.xdf --output_wav out/recording.wav
+python -m xdf_tools.plotting recording.xdf --stream-type EEG
+```
+
 
 ## Tests
 
